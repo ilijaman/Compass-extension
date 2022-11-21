@@ -1,50 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { Routes, Route, Link, Navigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+
+import Register from "./components/Register"
+import Login from "./components/Login"
+
 
 function App() {
-const [username, setUsername] = useState('')
-const [password, setPassword] = useState('')
-const [admin, setAdmin] = useState(false)
+  const navigate = useNavigate()
+  const [user, setUser] = useState(null)
 
-const handleSubmit = (event) => {
-  event.preventDefault()
-  const user = JSON.stringify({
-    "username": username,
-    "password": password,
-    "checked": admin
-  });
 
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
-  var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: user
-  };
-  
-  fetch("http://localhost:5000/api/registration/", requestOptions)
-    .then(response => response.json())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
-}
+  useEffect(() => {
+    const getLoggedInUser = async () => {
+      const res = await fetch("/api/verify")
+      const data = await res.json()
+      if (res.status === 200) {
+        setUser(data)
+      }
+    }
+    getLoggedInUser()
+  }, [])
 
   return (
     <div className="App">
-      <form onSubmit={handleSubmit}>
-        
-        <label htmlFor="username">username
-          <input type="text" id="username" onChange={e => setUsername(e.target.value)} value={username}/>
-        </label>
-        <label htmlFor="password">password
-          <input type="text" id="password" onChange={e => setPassword(e.target.value)} value={password}/>
-        </label>
-        <input type="checkbox" id="isadmin" onChange={() => setAdmin(!admin)} value={admin}></input>
-        <label htmlFor="isadmin">is admin?</label>
-
-        <input type="submit"/>
-      </form>
+      <Routes>
+        <Route path="/register" element={<Register/>} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
+      </Routes>
     </div>
   );
 }

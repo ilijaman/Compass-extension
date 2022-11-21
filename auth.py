@@ -15,7 +15,9 @@ def login_required(fn):
         return fn(*args, **kwargs)
     return check_login
 
-@auth_router.route('/api/registration/', methods=['POST'])
+# REGISTER ==========================================
+
+@auth_router.route('/api/register/', methods=['POST'])
 def register():
     print(request.json)
     username = request.json.get('username')
@@ -23,46 +25,87 @@ def register():
 
     password_hash = generate_password_hash(password)
 
-    # account_type = request.json.get(checkboxdata)
+    account_type = request.json.get('checked')
 
-    staffmember = Admin(username=username, password_hash=password_hash)
-    db.session.add(staffmember)
-    db.session.commit()
+    if account_type == False:
+        student = Student(username=username, password_hash=password_hash)
+        db.session.add(student)
+        db.session.commit()
 
-    user_dict = staffmember.to_dict()
-    session['current_user'] = user_dict
-    return jsonify({
+        student_dict = student.to_dict()
+        session['current_user'] = student_dict
+        return jsonify({
         'success': 'success',
         'message': 'Successfully registered',
-        'user': user_dict
+        'user': student_dict
+    })
+
+    else:
+        staffmember = Admin(username=username, password_hash=password_hash)
+        db.session.add(staffmember)
+        db.session.commit()
+
+        admin_dict = staffmember.to_dict()
+        session['current_user'] = admin_dict
+        return jsonify({
+        'success': 'success',
+        'message': 'Successfully registered',
+        'user': admin_dict
     })
 
 
-@auth_router.route('/login/', methods=['POST'])
+# LOGIN =======================================
+
+@auth_router.route('/api/login/', methods=['POST'])
 def login():
     username = request.json.get('username')
     password = request.json.get('password')
+    account_type = request.json.get('checked')
 
-    account_type = request.json.get('isadmin')
-    #if account type is admin is true
-
-
-
-    student_user = Student.query.filter_by(username=username).first()
-    admin_user = Admin.query.filter_by(username=username).first()
-
-
-
-    if not user:
-        abort(404, 'User not found')
-
-    if not check_password_hash(user.password_hash, password):
-        abort(403, 'Username and password don\'t match')
-
-    user_dict = user.to_dict()
-    session['current_user'] = user_dict
-    return jsonify({
+    if account_type == False:
+        student = Student.query.filter_by(username=username).first()
+        if not student:
+            abort(404, 'User not found')
+        if not check_password_hash(student.password_hash, password):
+            abort(403, 'Username and password don\'t match')
+        student_dict = student.to_dict()
+        return jsonify({
         'success': 'success',
         'message': 'Successfully logged in',
-        'user': user_dict
+        'user': student_dict
+        })
+    else:
+        admin = Admin.query.filter_by(username=username).first()
+        if not admin:
+            abort(404, 'Member of staff not found')
+        if not check_password_hash(student.password_hash, password):
+            abort(403, 'Username and password don\'t match')
+        admin_dict = admin.to_dict()
+        return jsonify({
+        'success': 'success',
+        'message': 'Successfully logged in',
+        'user': admin_dict    
+        })
+
+
+# LOGOUT =======================================
+
+@auth_router.route('/api/logout/', methods=['POST'])
+def logout():
+    session.pop('current_user', None)
+    return jsonify({
+        'status': 'success',
+        'message': 'Successfully logged out'
+    })
+
+
+@auth_router.route('/api/verify/', methods=['GET'])
+def verify():
+    current_user = session.get('current_user', None)
+    if not current_user:
+        abort(404, 'User not logged in or not found')
+    return jsonify({
+        'status': 'success',
+        'message': 'User verified',
+        'user': current_user
     })
