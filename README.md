@@ -1,3 +1,3 @@
 # Compass-extension
 
-![Alt text](/client/publix/adminindex.png)
+![Alt text](/client/public/adminindex.png)
