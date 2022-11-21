@@ -30,9 +30,9 @@ class Student(db.Model):
     bio = db.Column(db.String(500), unique=True, nullable=False)
     grade = db.Column(db.Integer, nullable=False)
     timetable = db.relationship('Timetable', backref='timetable')
-    todolist = db.relationship('Todolist', backref='todolist')
-    subjects = db.relationship('Subjects', backref='subjects')
-    completedtasks = db.relationship('Completedtask', backref= 'completedtask')
+    todoitem = db.relationship('Todoitem', backref='todoitem')
+    # subjects = db.relationship('Subjects', backref='subjects')
+    # completedtasks = db.relationship('Completedtask', backref= 'completedtask')
     goals = db.relationship('Goals', backref= 'goals')
 
     def to_dict(self):
@@ -60,10 +60,12 @@ class Timetable(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
 
 
-class Todolist(db.Model):
-    __tablename__ = 'todolist'
+class Todoitem(db.Model):
+    __tablename__ = 'todoitems'
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
+    text = db.Column(db.String(200), nullable=False)
+    completed = db.Column(db.Boolean, default=False)
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
 
 
@@ -75,12 +77,12 @@ class Todolist(db.Model):
 #     student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
 
 
-class CompletedTasks(db.Model):
-    __tablename__ = 'completedtasks'
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.Text, nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
+# class CompletedTask(db.Model):
+#     __tablename__ = 'completedtasks'
+#     id = db.Column(db.Integer, primary_key=True)
+#     title = db.Column(db.Text, nullable=False)
+#     description = db.Column(db.Text, nullable=False)
+#     student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
 
 
 class Goals(db.Model):

@@ -7,5 +7,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 db = SQLAlchemy(app)
 
+from admin import students_router
+app.register_blueprint(students_router)
+
+
+
 
 
