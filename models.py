@@ -48,6 +48,7 @@ class Student(db.Model):
 
 class Noticeboard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), nullable=False)
     text = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
     admin_id = db.Column(db.Integer, db.ForeignKey('admins.id'))
