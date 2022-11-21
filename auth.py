@@ -15,13 +15,16 @@ def login_required(fn):
         return fn(*args, **kwargs)
     return check_login
 
-@auth_router.route('/registration/', methods=['POST'])
+@auth_router.route('/api/registration/', methods=['POST'])
 def register():
+    print(request.json)
     username = request.json.get('username')
     password = request.json.get('password')
 
     password_hash = generate_password_hash(password)
-    #if
+
+    # account_type = request.json.get(checkboxdata)
+
     staffmember = Admin(username=username, password_hash=password_hash)
     db.session.add(staffmember)
     db.session.commit()
@@ -40,8 +43,14 @@ def login():
     username = request.json.get('username')
     password = request.json.get('password')
 
+    account_type = request.json.get('isadmin')
+    #if account type is admin is true
+
+
+
     student_user = Student.query.filter_by(username=username).first()
     admin_user = Admin.query.filter_by(username=username).first()
+
 
 
     if not user:

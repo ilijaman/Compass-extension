@@ -6,8 +6,8 @@ class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.Text, nullable=False)
-    name = db.Column(db.String(100), unique=True, nullable=False)
-    role = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(100), unique=True)
+    role = db.Column(db.String(50))
     noticeboard = db.relationship('Noticeboard', backref='noticeboard')
 
     def to_dict(self):
