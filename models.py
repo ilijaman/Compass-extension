@@ -13,7 +13,9 @@ class Admin(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'username': self.username
+            'username': self.username,
+            'name': self.name,
+            'role': self.role
         }
 
     def __repr__(self):
@@ -38,7 +40,10 @@ class Student(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'username': self.username
+            'username': self.username,
+            'name': self.name,
+            'bio': self.bio,
+            'grade': self.grade
         }
 
     def __repr__(self):
@@ -52,6 +57,14 @@ class Noticeboard(db.Model):
     text = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
     admin_id = db.Column(db.Integer, db.ForeignKey('admins.id'))
+
+    def to_dict(self):
+        return {
+        'id': self.id,
+        'title': self.title,
+        'text': self.text,
+        'date': self.date
+    }
 
 
 class Timetable(db.Model):

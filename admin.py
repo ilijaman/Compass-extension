@@ -4,7 +4,7 @@ from models import Admin, Student, Noticeboard
 
 admin_router= Blueprint(__name__, 'admin')
 
-@admin_router.route('/api/admin')
+@admin_router.route('/api/admin/')
 def show_students():
     students = Student.query.all()
     student_dicts = [student.to_dict() for student in students]
@@ -19,7 +19,7 @@ def show_students():
     return jsonify(data)
 
 
-@admin_router.route('/api/admin/<student>/')
+@admin_router.route('/api/<student>/')
 def show_student(student):
     student = Student.query.filter(Student.username == student).first()
     if not student:
@@ -27,6 +27,24 @@ def show_student(student):
     student_dict = student.to_dict()
     student_dict['todoitem'] = [item.to_dict for item in student.todoitem]
     return jsonify(student_dict)
+
+@admin_router.route('/api/search/', methods=["POST"])
+def show_search():
+    query = request.get_json()
+    print(query)
+    students = Student.query.all()
+    results_list = []
+    students_dict = [student.to_dict() for student in students]
+    for kid in students_dict:
+        if (kid['name'] == query):
+            results_list.append(kid)
+    return jsonify(results_list)
+
+
+    
+
+
+
 
 # @admin_router.route('/api/admin/<student>/edit')
 
