@@ -2,9 +2,9 @@ from flask import Blueprint, jsonify, request, session, abort
 from app import db
 from models import Admin, Student, Noticeboard
 
-students_router = Blueprint(__name__, 'students')
+admin_router= Blueprint(__name__, 'admin')
 
-@students_router.route('/api/')
+@admin_router.route('/api/admin')
 def show_students():
     students = Student.query.all()
     student_dicts = [student.to_dict() for student in students]
@@ -19,14 +19,23 @@ def show_students():
     return jsonify(data)
 
 
-@students_router.route('/api/<username>/')
-def show_student(username):
-    student = Student.query.filter(Student.username == username).first()
+@admin_router.route('/api/admin/<student>/')
+def show_student(student):
+    student = Student.query.filter(Student.username == student).first()
     if not student:
         abort(404, 'Student not found')
     student_dict = student.to_dict()
     student_dict['todoitem'] = [item.to_dict for item in student.todoitem]
     return jsonify(student_dict)
 
+# @admin_router.route('/api/admin/<student>/edit')
 
+# @admin_router.route('/api/admin/<student>/delete')
 
+# @admin_router.route('/api/admin/create/')
+
+# @admin_router.route('/api/noticeboard/create/')
+
+# @admin_router.route('/api/noticeboard/edit/')
+
+# @admin_router.route('/api/noticeboard/delete')

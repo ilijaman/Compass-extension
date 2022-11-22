@@ -1,50 +1,53 @@
 import { useState } from "react"
+import { Navigate } from "react-router"
 
-function App() {
+const Register = ( setUser) => {
 const [username, setUsername] = useState('')
 const [password, setPassword] = useState('')
 const [admin, setAdmin] = useState(false)
 
-const handleSubmit = (event) => {
+const handleSubmit = async (event) => {
   event.preventDefault()
+  alert('hello')
   const user = JSON.stringify({
     "username": username,
     "password": password,
     "checked": admin
   });
 
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
-  var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: user
-  };
-  
-  fetch("http://localhost:5000/api/register/", requestOptions)
-    .then(response => response.json())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
+  try {
+    const res = await fetch("/api/register/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json"},
+        body: user
+      }) 
+      console.log(res.status)
+      const userData = await res.json()
+      setUser(userData)
+      // if (admin === true) {
+      //   // Navigate('/<adminhome>/')
+      // } else {
+      //   // Navigate('/<adminhome>/')
+      // }
+      }catch (error) {
+  }
 }
 
-  return (
-    <div className="App">
-      <form onSubmit={handleSubmit}>
-        
-        <label htmlFor="username">username
-          <input type="text" id="username" onChange={e => setUsername(e.target.value)} value={username}/>
-        </label>
-        <label htmlFor="password">password
+return (
+  <div className="App">
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="username">username
+      <input type="text" id="username" onChange={e => setUsername(e.target.value)} value={username}/>
+      </label>
+      <label htmlFor="password">password
           <input type="text" id="password" onChange={e => setPassword(e.target.value)} value={password}/>
-        </label>
-        <input type="checkbox" id="isadmin" onChange={() => setAdmin(!admin)} value={admin}></input>
-        <label htmlFor="isadmin">is admin?</label>
-
-        <input type="submit"/>
-      </form>
-    </div>
+      </label>
+      <input type="checkbox" id="isadmin" onChange={() => setAdmin(!admin)} value={admin}></input>
+      <label htmlFor="isadmin">is admin?</label>
+      <input type="submit"/>
+    </form>
+  </div>
   );
 }
 
-export default App;
+export default Register;
