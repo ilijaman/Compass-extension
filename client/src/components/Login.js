@@ -32,6 +32,7 @@ const Login = ({ setUser }) => {
     } else if (res.status === 200) {
       setError(null)
       setUser(data)
+      console.log('user successfully logged in', data)
     //   navigate("/")
     }
     setFields(initialState)

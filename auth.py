@@ -78,7 +78,7 @@ def login():
         admin = Admin.query.filter_by(username=username).first()
         if not admin:
             abort(404, 'Member of staff not found')
-        if not check_password_hash(student.password_hash, password):
+        if not check_password_hash(admin.password_hash, password):
             abort(403, 'Username and password don\'t match')
         admin_dict = admin.to_dict()
         return jsonify({

@@ -28,22 +28,20 @@ const handleSubmit = (event) => {
     .catch(error => console.log('error', error));
 }
 
-  return (
-    <div className="App">
-      <form onSubmit={handleSubmit}>
-        
-        <label htmlFor="username">username
-          <input type="text" id="username" onChange={e => setUsername(e.target.value)} value={username}/>
-        </label>
-        <label htmlFor="password">password
+return (
+  <div className="App">
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="username">username
+      <input type="text" id="username" onChange={e => setUsername(e.target.value)} value={username}/>
+      </label>
+      <label htmlFor="password">password
           <input type="text" id="password" onChange={e => setPassword(e.target.value)} value={password}/>
-        </label>
-        <input type="checkbox" id="isadmin" onChange={() => setAdmin(!admin)} value={admin}></input>
-        <label htmlFor="isadmin">is admin?</label>
-
-        <input type="submit"/>
-      </form>
-    </div>
+      </label>
+      <input type="checkbox" id="isadmin" onChange={() => setAdmin(!admin)} value={admin}></input>
+      <label htmlFor="isadmin">is admin?</label>
+      <input type="submit"/>
+    </form>
+  </div>
   );
 }
 
