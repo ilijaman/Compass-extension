@@ -15,7 +15,8 @@ class Admin(db.Model):
             'id': self.id,
             'username': self.username,
             'name': self.name,
-            'role': self.role
+            'role': self.role,
+            'account_type': 'Admin'
         }
 
     def __repr__(self):
@@ -43,7 +44,8 @@ class Student(db.Model):
             'username': self.username,
             'name': self.name,
             'bio': self.bio,
-            'grade': self.grade
+            'grade': self.grade,
+            'account_type': 'Student'
         }
 
     def __repr__(self):
@@ -81,6 +83,15 @@ class Todoitem(db.Model):
     text = db.Column(db.String(200), nullable=False)
     completed = db.Column(db.Boolean, default=False)
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
+
+    def to_dict(self):
+        return {
+        'id': self.id,
+        'date': self.date,
+        'text': self.text,
+        'completed': self.completed,
+        'student_id': self.student_id
+    }
 
 
 # class Subjects(db.Model):

@@ -23,7 +23,9 @@ const handleSubmit = async (event) => {
       }) 
       console.log(res.status)
       const userData = await res.json()
+      console.log(user.username)
       setUser(userData)
+     
       // if (admin === true) {
       //   // Navigate('/<adminhome>/')
       // } else {

@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
+import '../signin.css'
+import { Form, Button } from "react-bootstrap"
 
 const initialState = { username: "", password: "" }
 
@@ -40,10 +42,11 @@ const Login = ({ setUser }) => {
 
   return (
     <div className="login-page">
-      <div className="form">
-      <form onSubmit={handleSubmit}>
+      <div>
+      <Form className="form-signin" onSubmit={handleSubmit}>
       {error && <p>{error.msg}</p>}
-        <input
+        <Form.Control
+            className="form-signin input"
             onChange={handleChange}
             value={fields.username}
             name="username"
@@ -52,25 +55,28 @@ const Login = ({ setUser }) => {
             placeholder="username"
         />
 
-        <input
+        <Form.Control
+            className="form-signin input"
             onChange={handleChange}
             value={fields.password}
             name="password"
             id="login-password"
-            type="Password"
+            type="password"
             placeholder="password"
         />
-
-        <input 
+      <Form.Group>
+        <Form.Check
             type="checkbox" 
             id="isadmin" 
             onChange={() => setAdmin(!admin)} 
-            value={admin}></input>
-
-        <label htmlFor="isadmin">is admin?</label>
-
-        <input type="submit" value="Login" />
-    </form>
+            value={admin}
+        />
+        <Form.Label htmlFor="isadmin">is admin?</Form.Label>
+        </Form.Group>
+        <div id="login-btn">
+        <Button variant="primary" type="submit">Login</Button>
+        </div>
+    </Form>
     </div>
     </div>
   )

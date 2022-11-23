@@ -1,9 +1,11 @@
+import Card from 'react-bootstrap/Card';
+
 const Noticeboard = ({ notice }) => {
     return ( 
-        <div className="notices">
+        <Card>
             <h3>{notice.title}</h3>
-            <p>{notice.text}</p>
-        </div>
+            <p>{notice.text} </p>
+        </Card>
     )
 }
 

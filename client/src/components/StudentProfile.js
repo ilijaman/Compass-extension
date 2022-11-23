@@ -1,18 +1,33 @@
-// import { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
+import Todos from './Todos'
+import { useParams } from "react-router-dom"
+import StudentDetails from './StudentDetails'
 
-// const StudentProfile = () => {
-//     const [profile, setProfile] = useState(null)
-//     const { student } = useParams()
+const StudentProfile = () => {
+    const [student, setStudent] = useState(null)
+    const [todos, setTodos] = useState(null)
+    const  { studentID } = useParams()
 
-//     // <Route path="/users/:userId" element={<Account user={user} />} />
-//     useEffect(() => {
-//         const getStudent= async () => {
-//             const res = await fetch(`/api/${student}`)
-//             const data = await res.json()
-//             setProfile(data)
-//         }
-//         getStudent()
-//     }, [])
-// }
 
-// const 
+
+    useEffect(() => {
+        const getStudent= async () => {
+            const res = await fetch(`/api/admin/${studentID}/`)
+            const data = await res.json()
+            console.log('hey', data)
+            setStudent(data.student)
+            setTodos(data.todos)
+        }
+        getStudent()
+    }, [])
+
+
+return (
+    <div>
+        {todos && todos.map((todo) => <Todos todo={todo} student={student}/>)}
+        {todos && <StudentDetails student={student}/>}
+    </div>  
+)
+}
+
+export default StudentProfile

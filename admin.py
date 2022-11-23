@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, session, abort
 from app import db
-from models import Admin, Student, Noticeboard
+from models import Admin, Student, Noticeboard, Todoitem
 
 admin_router= Blueprint(__name__, 'admin')
 
@@ -19,14 +19,22 @@ def show_students():
     return jsonify(data)
 
 
-@admin_router.route('/api/<student>/')
-def show_student(student):
-    student = Student.query.filter(Student.username == student).first()
-    if not student:
-        abort(404, 'Student not found')
+@admin_router.route('/api/admin/<student_id>/')
+def show_student(student_id):
+    print(student_id)
+    student = Student.query.get_or_404(student_id, 'Student not found')
     student_dict = student.to_dict()
-    student_dict['todoitem'] = [item.to_dict for item in student.todoitem]
-    return jsonify(student_dict)
+
+    todos = Todoitem.query.filter_by(student_id = student_id)
+    todos_dict = [todo.to_dict() for todo in todos]
+    data = {
+        'student': student_dict,
+        'todos': todos_dict
+    }
+    print(data)
+
+    return jsonify(data)
+
 
 @admin_router.route('/api/search/', methods=["POST"])
 def show_search():
@@ -38,7 +46,26 @@ def show_search():
     for kid in students_dict:
         if (kid['name'] == query):
             results_list.append(kid)
+            
     return jsonify(results_list)
+
+
+@admin_router.route('/api/admin/<student_id>/', methods=['PUT'])
+def update_student(student_id):
+    student_data = request.get_json()
+    print(student_data)
+    student = Student.query.get_or_404(student_id, 'Student not found')
+    print(student)
+
+    for key, value in student_data.items():
+        setattr(student, key, value)
+
+    db.session.add(student)
+    db.session.commit()
+    return jsonify(student.to_dict())
+    
+
+
 
 
     

@@ -1,7 +1,9 @@
+import { Link } from 'react-router-dom'
+
 const SearchResults = ({result}) => {
     return (
         <div>
-            <p>{result.name}</p>
+            <Link to={`/admin/${result.id}`}>{result.name}</Link>
         </div>
     )
 }
