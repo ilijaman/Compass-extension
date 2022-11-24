@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import Todos from './Todos'
 import { useParams } from "react-router-dom"
 import StudentDetails from './StudentDetails'
+import EditStudent from './EditStudent'
 
 const StudentProfile = () => {
     const [student, setStudent] = useState(null)
@@ -26,6 +27,7 @@ return (
     <div>
         {todos && todos.map((todo) => <Todos todo={todo} student={student}/>)}
         {todos && <StudentDetails student={student}/>}
+        {todos && <EditStudent student={student} />}
     </div>  
 )
 }

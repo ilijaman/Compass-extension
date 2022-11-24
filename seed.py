@@ -49,7 +49,7 @@ todoitems = [
 ]
 
 noticeboard_items = [ 
-    'Mario year 9 camp - Important!', 'Mario will need xyz assistance on camp and etc. etc.', 'Daphne - note from parents', 'Daphne is feeling xyz, she will return to school xyz'
+    'Mario year 9 camp - Important!', 'Mario will need xyz assistance on camp and etc. etc.', 'Daphne - note from parents', 'Daphne is feeling xyz, she will return to school xyz', 'General', 'Important'
 ]
 
 
@@ -72,8 +72,8 @@ with app.app_context():
         admin = Admin(username=admins['username'], password_hash='')
         admin.name=admins['username']
         admin.role=admins['role']
-        notice1 = Noticeboard(title=noticeboard_items[0], text=noticeboard_items[1])
-        notice2 = Noticeboard(title=noticeboard_items[2], text=noticeboard_items[3])
+        notice1 = Noticeboard(title=noticeboard_items[0], text=noticeboard_items[1], importance_tier=noticeboard_items[4])
+        notice2 = Noticeboard(title=noticeboard_items[2], text=noticeboard_items[3], importance_tier=noticeboard_items[5])
         if admins['username'] == 'Alex':
             admin.noticeboard.append(notice1)
         else: 

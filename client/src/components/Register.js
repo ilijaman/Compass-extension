@@ -1,18 +1,19 @@
 import { useState } from "react"
-import { Navigate } from "react-router"
+import { useNavigate } from "react-router-dom"
 
 const Register = ( setUser) => {
-const [username, setUsername] = useState('')
-const [password, setPassword] = useState('')
-const [admin, setAdmin] = useState(false)
+  const navigate = useNavigate()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [admin, setAdmin] = useState(false)
 
-const handleSubmit = async (event) => {
-  event.preventDefault()
-  alert('hello')
-  const user = JSON.stringify({
-    "username": username,
-    "password": password,
-    "checked": admin
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    alert('hello')
+    const user = JSON.stringify({
+      "username": username,
+      "password": password,
+      "checked": admin
   });
 
   try {
@@ -23,13 +24,13 @@ const handleSubmit = async (event) => {
       }) 
       console.log(res.status)
       const userData = await res.json()
-      console.log(user.username)
-      setUser(userData)
-     
-      // if (admin === true) {
-      //   // Navigate('/<adminhome>/')
+      console.log(userData.user.account_type)
+      setUser(userData.user)
+      if (userData.user.account_type === 'Admin') {
+        navigate('/')
+      }
       // } else {
-      //   // Navigate('/<adminhome>/')
+      //   Navigate to student home 
       // }
       }catch (error) {
   }
