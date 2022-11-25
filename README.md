@@ -2,7 +2,7 @@ _Final project – React/Python/Flask/Postgresql/sqlalchemy_
 
 **MVP**
 
-**Student routes**
+# Student routes
 
 - **Index:**
   - Home with all subjects listed
@@ -18,7 +18,7 @@ _Final project – React/Python/Flask/Postgresql/sqlalchemy_
 - **To do list**
 - **Timetable**
 
-**Admin routes**
+#Admin routes
 
 - **Index:**
   - Search bar for all kids on database
@@ -41,7 +41,7 @@ _Final project – React/Python/Flask/Postgresql/sqlalchemy_
 - **In settings/ add new kid to the database**
   - Includes… Details like Name/grade, snapshot/bio, goals, subjects, timetable?
 
-**What will this app do?**
+# What will this app do?**
 
 - **Admin login for… Education support staff, teachers, parents?**
 
@@ -56,7 +56,7 @@ _Final project – React/Python/Flask/Postgresql/sqlalchemy_
   - Click on a subject, be taken to a show-route that will contain a to-do list, history of completed tasks, progress for their subject.
   - Timetable? – calendar system?
 
-**The WHY in this project**
+# The WHY in this project
 
 **Problem:**
 
