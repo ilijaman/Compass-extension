@@ -18,7 +18,7 @@ _Final project – React/Python/Flask/Postgresql/sqlalchemy_
 - **To do list**
 - **Timetable**
 
-#Admin routes
+# Admin routes
 
 - **Index:**
   - Search bar for all kids on database
