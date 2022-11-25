@@ -41,7 +41,7 @@ _Final project – React/Python/Flask/Postgresql/sqlalchemy_
 - **In settings/ add new kid to the database**
   - Includes… Details like Name/grade, snapshot/bio, goals, subjects, timetable?
 
-# What will this app do?**
+# What will this app do?
 
 - **Admin login for… Education support staff, teachers, parents?**
 
