@@ -37,6 +37,7 @@ function App() {
   return (
     <div className="App">
       <div className="app-container">
+      {user && <Nav user={user} setUser={setUser} />}
       <Routes>        
         <Route path="/register" element={<Register setUser={setUser} />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
@@ -45,11 +46,11 @@ function App() {
       <Route path="/" element={<PrivateRoutes user={user} />}>
         <Route path="/" element={<AdminHome user={user}/> } />
         <Route path="/admin/:studentID/" element={<StudentProfile user={user}/>} />
-        {/* <Nav user={user} setUser={setUser} /> */}
       </Route>
 
-      </Routes>  
- 
+      </Routes> 
+      
+     
       </div>
     </div>
   );

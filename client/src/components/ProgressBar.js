@@ -1,16 +1,22 @@
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import Button from  'react-bootstrap/Button';
 
-function StripedExample() {
-    const now = 60
+
+function WithLabelExample({ todos }) {
+
+  let now = todos.length
+
+  function ButtonIncrement() {
+    if (todos) {
+      now += 1
+    }
+  }
   return (
     <div>
-
-      <ProgressBar striped variant="success" now={now} label={`${now}%`}  />
-      <ProgressBar striped variant="info" now={20} />
-      <ProgressBar striped variant="warning" now={60} />
-      <ProgressBar striped variant="danger" now={80} />
+      <ProgressBar now={now} label={`${now}%`} />;
+      {todos && <Button onClick={ButtonIncrement} />}
     </div>
-  );
+  )
 }
 
-export default StripedExample;
+export default WithLabelExample;

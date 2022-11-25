@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import '../App.css'
-import StripedExample from "./ProgressBar"
+import ProgressBar from "./ProgressBar"
+
+
 import StudentTodo from "./StudentTodo" 
 
 const StudentHome = ({ user }) => {
@@ -24,12 +26,11 @@ const StudentHome = ({ user }) => {
 
 return (
     <div>
-        {user ? user.id : 'loading...'}
-        {user && user.username}
-        {todos && todos.length > 0 && <StripedExample />}
+      <h1>{user && user.username}</h1>
         {todos && todos.map((todo) => (
         <StudentTodo todo={todo} />
         ))}
+        <ProgressBar todos={todos}/>
     </div>
 )
 }

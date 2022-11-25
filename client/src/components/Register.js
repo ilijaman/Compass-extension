@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { Form, Button, FormControl } from "react-bootstrap"
 import '../signin.css'
 
-const Register = ( setUser) => {
+const Register = ({ setUser }) => {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -25,15 +25,13 @@ const Register = ( setUser) => {
       }) 
       console.log(res.status)
       const userData = await res.json()
-      console.log(userData.user.account_type)
+      console.log(userData.user.account_type)  
+      setUser(userData.user)
       if (userData.user.account_type === 'Admin') {
-        console.log('a')
         navigate('/')
       } else {
-        console.log('b')
         navigate(`/compassbuddy/${userData.user.id}/`)
       }
-      setUser(userData.user)
       }catch (error) {
   }
 }

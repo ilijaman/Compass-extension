@@ -1,5 +1,6 @@
 import Card from "react-bootstrap/Card"
-
+import StripedExample from "./ProgressBar"
+// {todos && todos.length > 0 && <StripedExample />}
 const Todo = ({ todo }) => {
 
 

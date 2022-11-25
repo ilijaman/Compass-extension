@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom"
 import '../signin.css'
 import { Form, Button } from "react-bootstrap"
 
-const initialState = { username: "", password: "" }
 
 const Login = ({ setUser }) => {
   const [username, setUsername] = useState(null)
