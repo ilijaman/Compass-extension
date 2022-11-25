@@ -24,7 +24,6 @@ const EditStudent = ({ student }) => {
         "name": name,
         "grade": grade,
         "bio": bio
-
     }
     const res = await fetch(`/api/admin/${studentID}/`, {
       method: "PUT",
@@ -36,7 +35,7 @@ const EditStudent = ({ student }) => {
   }
   
   const handleDelete = async () => {
-    const res = await fetch(`/api/admin/${studentID}`, { method: 'DELETE' })
+    const res = await fetch(`/api/admin/student/${studentID}/`, { method: 'DELETE' })
     const data = await res.json()
     navigate("/")
   }

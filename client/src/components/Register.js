@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { Form, Button, FormControl } from "react-bootstrap"
+import '../signin.css'
 
 const Register = ( setUser) => {
   const navigate = useNavigate()
@@ -9,7 +11,6 @@ const Register = ( setUser) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    alert('hello')
     const user = JSON.stringify({
       "username": username,
       "password": password,
@@ -25,30 +26,51 @@ const Register = ( setUser) => {
       console.log(res.status)
       const userData = await res.json()
       console.log(userData.user.account_type)
-      setUser(userData.user)
       if (userData.user.account_type === 'Admin') {
+        console.log('a')
         navigate('/')
+      } else {
+        console.log('b')
+        navigate(`/compassbuddy/${userData.user.id}/`)
       }
-      // } else {
-      //   Navigate to student home 
-      // }
+      setUser(userData.user)
       }catch (error) {
   }
 }
 
 return (
   <div className="App">
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="username">username
-      <input type="text" id="username" onChange={e => setUsername(e.target.value)} value={username}/>
-      </label>
-      <label htmlFor="password">password
-          <input type="text" id="password" onChange={e => setPassword(e.target.value)} value={password}/>
-      </label>
-      <input type="checkbox" id="isadmin" onChange={() => setAdmin(!admin)} value={admin}></input>
-      <label htmlFor="isadmin">is admin?</label>
-      <input type="submit"/>
-    </form>
+    <div className="login-page"> 
+    <Form onSubmit={handleSubmit} className="form-signin">
+      <Form.Control 
+      type="text" 
+      id="username" 
+      placeholder="username"
+      className="form-signin input" 
+      onChange={e => setUsername(e.target.value)} value={username}
+      />
+
+      <Form.Control 
+      type="password" 
+      placeholder="password"
+      id="password" 
+      className="form-signin input"
+      onChange={e => setPassword(e.target.value)} value={password}
+      />
+      <Form.Group>
+        <Form.Label htmlFor="isadmin">Register as admin?</Form.Label> 
+         <Form.Check 
+          type="checkbox" 
+          id="isadmin" 
+          onChange={() => setAdmin(!admin)} 
+          value={admin}
+        />
+      </Form.Group>
+      <div id="login-btn">
+        <Button variant="primary" type="submit">Register</Button>
+      </div>
+    </Form>
+  </div>
   </div>
   );
 }

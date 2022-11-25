@@ -6,49 +6,45 @@ import { Form, Button } from "react-bootstrap"
 const initialState = { username: "", password: "" }
 
 const Login = ({ setUser }) => {
-  const [fields, setFields] = useState(initialState)
-  const [error, setError] = useState(null)
+  const [username, setUsername] = useState(null)
+  const [password, setPassword] = useState(false)
   const [admin, setAdmin] = useState(false)
   const navigate = useNavigate()
 
-  const handleChange = (event) => {
-    const { name, value } = event.target
-    setFields({
-      ...fields,
-      [name]: value,
-    })
-  }
-
   const handleSubmit = async (event) => {
     event.preventDefault()
+    const user = JSON.stringify({
+      "username": username,
+      "password": password,
+      "checked": admin
+  });
+
+  try {
     const res = await fetch("/api/login/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(fields),
-    })
-    const data = await res.json()
-    if (res.status === 401) {
-      setError(data)
-    } else if (res.status === 200) {
-      setError(null)
-      setUser(data.user)
-      console.log('user successfully logged in', data)
-    }
-    navigate("/")
-    setFields(initialState)
+        method: "POST",
+        headers: { "Content-Type": "application/json"},
+        body: user
+      }) 
+      console.log(res.status)
+      const userData = await res.json()
+      console.log(userData.user.account_type)
+      setUser(userData.user)
+      if (userData.user.account_type === 'Admin') {
+        navigate('/')
+      } else {
+        navigate(`/compassbuddy/${userData.user.id}`)
+      }
+      }catch (error) {
   }
+}
 
   return (
     <div className="login-page">
       <div>
       <Form className="form-signin" onSubmit={handleSubmit}>
-      {error && <p>{error.msg}</p>}
         <Form.Control
             className="form-signin input"
-            onChange={handleChange}
-            value={fields.username}
+            onChange= {e => setUsername(e.target.value)} value={username}
             name="username"
             id="login-username"
             type="text"
@@ -57,8 +53,7 @@ const Login = ({ setUser }) => {
 
         <Form.Control
             className="form-signin input"
-            onChange={handleChange}
-            value={fields.password}
+            onChange={e => setPassword(e.target.value)} value={password}
             name="password"
             id="login-password"
             type="password"

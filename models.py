@@ -9,6 +9,7 @@ class Admin(db.Model):
     name = db.Column(db.String(100), unique=True)
     role = db.Column(db.String(50))
     noticeboard = db.relationship('Noticeboard', backref='noticeboard')
+    todoitem = db.relationship('Todoitem', backref='admin_todoitems')
 
     def to_dict(self):
         return {
@@ -33,7 +34,7 @@ class Student(db.Model):
     bio = db.Column(db.String(500), unique=True)
     grade = db.Column(db.Integer)
     # timetable = db.relationship('Timetable', backref='timetable')
-    todoitem = db.relationship('Todoitem', backref='todoitem')
+    todoitem = db.relationship('Todoitem', backref='todoitems')
     # # subjects = db.relationship('Subjects', backref='subjects')
     # completedtasks = db.relationship('Completedtask', backref= 'completedtask')
     # goals = db.relationship('Goals', backref= 'goals')
@@ -83,16 +84,22 @@ class Todoitem(db.Model):
     __tablename__ = 'todoitems'
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
+    title = db.Column(db.String(50))
     text = db.Column(db.String(200), nullable=False)
+    subject = db.Column(db.String(50))
     completed = db.Column(db.Boolean, default=False)
+    admin_id = db.Column(db.Integer, db.ForeignKey('admins.id'))
     student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
 
     def to_dict(self):
         return {
         'id': self.id,
+        'title': self.title,
         'date': self.date,
         'text': self.text,
+        'subject': self.subject,
         'completed': self.completed,
+        'admin_id': self.admin_id,
         'student_id': self.student_id
     }
 

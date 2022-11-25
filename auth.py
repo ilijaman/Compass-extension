@@ -28,7 +28,7 @@ def register():
     account_type = request.json.get('checked')
 
     if account_type == False:
-        student = Student(username=username, password_hash=password_hash)
+        student = Student(username=username, password_hash=password_hash, name=username)
         db.session.add(student)
         db.session.commit()
 

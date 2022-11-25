@@ -30,17 +30,23 @@ def show_students():
 
 # ADD TO NOTICEBOARD
 
-@admin_router.route('/api/admin/', methods=['POST'])
+@admin_router.route('/api/admin/notice/', methods=['POST'])
 def create_notice():
     current_user = session.get('current_user')
-
     notice_data= request.get_json()
     notice = Noticeboard(**notice_data, admin_id = current_user['id'])
     db.session.add(notice)
     db.session.commit()
     return jsonify(notice.to_dict())
-#need to query Admin model// current user??
 
+# DELETE NOTICEBOARD
+
+@admin_router.route('/api/admin/notice/<notice_id>/', methods=['DELETE'])
+def delete_notice(notice_id):
+    notice = Noticeboard.query.get_or_404(notice_id, 'Notice not found')
+    db.session.delete(notice)
+    db.session.commit()
+    return jsonify(notice.to_dict())
 
 #SHOW PG
 
@@ -95,16 +101,16 @@ def update_student(student_id):
 
 # DELETE
 
-@admin_router.route('/api/admin/<student_id>/', methods=['DELETE'])
+@admin_router.route('/api/admin/student/<student_id>/', methods=['DELETE'])
 def delete_student(student_id):
+    print(student_id)
     student = Student.query.get_or_404(student_id, 'Student not found')
-    print(student)
-
+    # print(student)
     db.session.delete(student)
     db.session.commit()
     return jsonify(student.to_dict())
 
-# CREATE
+# ADD STUDENT
 
 @admin_router.route('/api/admin/', methods=['POST'])
 def create_student():
@@ -114,6 +120,26 @@ def create_student():
     db.session.add(student)
     db.session.commit()
     return jsonify(student.to_dict())
+
+# ADD TO-DO
+
+@admin_router.route('/api/admin/todo/', methods=['POST'])
+def add_todo():
+    todo_data = request.get_json()
+    print(todo_data)
+    todo = Todoitem(**todo_data)
+    db.session.add(todo)
+    db.session.commit()
+    return jsonify(todo.to_dict())
+
+# DELETE TO-DO
+
+@admin_router.route('/api/admin/todo/<todo_id>/', methods=['DELETE'])
+def delete_todo(todo_id):
+    todo = Todoitem.query.get_or_404(todo_id, 'Todo not found')
+    db.session.delete(todo)
+    db.session.commit()
+    return jsonify(todo.to_dict())
     
 
 

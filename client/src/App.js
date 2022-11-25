@@ -7,6 +7,8 @@ import Register from "./components/Register"
 import Login from "./components/Login"
 import AdminHome from "./components/AdminHome"
 import StudentProfile from "./components/StudentProfile";
+import StudentHome from "./components/StudentHome";
+import Nav from "./components/Nav";
 
 const PrivateRoutes = ({ user }) => {
   console.log('Admin Route -', user)
@@ -34,16 +36,21 @@ function App() {
 
   return (
     <div className="App">
+      <div className="app-container">
       <Routes>        
         <Route path="/register" element={<Register setUser={setUser} />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/compassbuddy/:studentID/" element={<StudentHome user={user}/>} />
         
       <Route path="/" element={<PrivateRoutes user={user} />}>
         <Route path="/" element={<AdminHome user={user}/> } />
-        <Route path="/admin/:studentID/" element={<StudentProfile />} />
+        <Route path="/admin/:studentID/" element={<StudentProfile user={user}/>} />
+        {/* <Nav user={user} setUser={setUser} /> */}
       </Route>
 
-      </Routes>
+      </Routes>  
+ 
+      </div>
     </div>
   );
 }

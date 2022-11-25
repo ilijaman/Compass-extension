@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useReducer, useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import '../App.css'
 
@@ -8,41 +8,46 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { Form } from 'react-bootstrap'
 
 
-const AddStudent = () => {
+const AddTodo = ({ student, todos, setTodos, user }) => {
   const navigate = useNavigate()
-  const [name, setName] = useState(null)
-  const [grade, setGrade] = useState(null)
-  const [bio, setBio] = useState(null)
+  const [title, setTitle] = useState(null)
+  const [subject, setSubject] = useState(null)
+  const [text, setText] = useState(null)
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+
+
   
   const handleSubmit = async (event) => {
     event.preventDefault()
     const data = {
-        "name": name,
-        "grade": grade,
-        "bio": bio
-
+        "title": title,
+        "subject": subject,
+        "text": text,
+        "student_id": student.id,
+        "admin_id": user.id
     }
-    const res = await fetch(`/api/admin/`, {
+    const res = await fetch('/api/admin/todo/', {
       method: "POST",
       headers: { "Content-Type": "application/json"},
       body: JSON.stringify(data)
     })
-    const studentData = await res.json()
-    navigate("/")
+    const newTodo = await res.json()
+    setTodos([newTodo, ...todos])
+    handleClose()
+    navigate(`/admin/${student.id}`)
   }
   
     return (
     <>
         <Button variant="primary" onClick={handleShow}>
-          Add a student
+          Add a Todo for {student.name}
         </Button>
   
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Student details</Modal.Title>
+            <Modal.Title>Todo details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
@@ -50,23 +55,21 @@ const AddStudent = () => {
                 <Form.Label></Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter name"
+                  placeholder="Enter title"
                   autoFocus
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
-            <Dropdown onChange={(e) => setGrade(e)}>
+            <Dropdown onSelect={(e) => setSubject(e)}>
                 <Dropdown.Toggle variant="success" id="dropdown-basic" >
-                    Declare grade
+                    Declare subject
                 </Dropdown.Toggle>
             <br/>
             <br/>
-                <Dropdown.Menu>
-                    <Dropdown.Item eventKey="7">7</Dropdown.Item>
-                    <Dropdown.Item eventKey="8">8</Dropdown.Item>
-                    <Dropdown.Item eventKey="9">9</Dropdown.Item>
-                    <Dropdown.Item eventKey="10">10</Dropdown.Item>
-                    <Dropdown.Item eventKey="11">11</Dropdown.Item>
-                    <Dropdown.Item eventKey="12">12</Dropdown.Item>
+                <Dropdown.Menu >
+                    <Dropdown.Item eventKey="English">English</Dropdown.Item>
+                    <Dropdown.Item eventKey="Math">Math</Dropdown.Item>
+                    <Dropdown.Item eventKey="Science">Science</Dropdown.Item>
+                    <Dropdown.Item eventKey="Elective">Elective</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown> 
 
@@ -79,8 +82,8 @@ const AddStudent = () => {
                 <Form.Control 
                 as="textarea" 
                 rows={5} 
-                placeholder="Add a bio"
-                onChange={(e) => setBio(e.target.value)}/>
+                placeholder="Add task description"
+                onChange={(e) => setText(e.target.value)}/>
               </Form.Group>
             </Form>
           </Modal.Body>
@@ -89,11 +92,11 @@ const AddStudent = () => {
               Close
             </Button>
             <Button variant="primary" onClick={handleSubmit}>
-              Add
+              Assign task
             </Button>
           </Modal.Footer>
         </Modal>
     </>
     )
 }
-export default AddStudent
+export default AddTodo

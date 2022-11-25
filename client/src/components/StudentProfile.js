@@ -3,19 +3,18 @@ import Todos from './Todos'
 import { useParams } from "react-router-dom"
 import StudentDetails from './StudentDetails'
 import EditStudent from './EditStudent'
+import AssignTodo from './AssignTodo'
 
-const StudentProfile = () => {
+const StudentProfile = ({ user }) => {
     const [student, setStudent] = useState(null)
     const [todos, setTodos] = useState(null)
     const  { studentID } = useParams()
-
 
 
     useEffect(() => {
         const getStudent= async () => {
             const res = await fetch(`/api/admin/${studentID}/`)
             const data = await res.json()
-            console.log('hey', data)
             setStudent(data.student)
             setTodos(data.todos)
         }
@@ -24,12 +23,20 @@ const StudentProfile = () => {
 
 
 return (
-    <div>
-        {todos && todos.map((todo) => <Todos todo={todo} student={student}/>)}
-        {todos && <StudentDetails student={student}/>}
-        {todos && <EditStudent student={student} />}
-    </div>  
-)
+    <>
+    <div className="container1">
+        <div className="noticeboard">
+            {todos && todos.map((todo) => <Todos todo={todo} user={user} todos={todos} setTodos={setTodos} />)}
+        </div> 
+    </div>
+        <div className="container2">
+            {todos && <StudentDetails student={student}/>}
+            {todos && <EditStudent student={student} />}
+            {todos && <AssignTodo student={student} todos={todos} setTodos={setTodos} user={user}/> }
+        </div>
+    </>
+    )
 }
+
 
 export default StudentProfile

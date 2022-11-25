@@ -9,8 +9,10 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 db = SQLAlchemy(app)
 
 from admin import admin_router
+from students import student_router
 from auth import auth_router
 app.register_blueprint(admin_router)
+app.register_blueprint(student_router)
 app.register_blueprint(auth_router)
 
 

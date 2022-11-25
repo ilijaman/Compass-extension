@@ -1,9 +1,9 @@
-import { link } from "react-router-dom"
 import { useEffect, useState } from "react"
 import Noticeboard from "./Noticeboard"
 import SearchBar from "./SearchBar"
 import AddStudent from "./AddStudent"
 import AddNotice from "./AddNotice"
+import '../App.css'
 
 const AdminHome = ({ user }) => {
   const [notices, setNotices] = useState([])
@@ -23,21 +23,25 @@ const AdminHome = ({ user }) => {
     getData()
   }, [])
 
-  return (
-    <div className="container">
-      <div className="noticeboard">
+  return (      
+  <>
+    <div className="noticeboard">
+        <div className="container1">
         {notices.map((notice) => (
-          <Noticeboard notice={notice} user={user}/>
+          <Noticeboard notice={notice} user={user}
+          notices={notices} setNotices={setNotices}/>
         ))}
-        <AddNotice notices={notices} setNotices={setNotices} />
       </div>
-      <div className="searchbar">
+      <AddNotice notices={notices} setNotices={setNotices} />
+      </div>
+    
+      <div className="search-bar">
         <SearchBar />
       </div>
       <div className="add-student-btn">
         <AddStudent students={students} />
       </div>
-    </div>
+  </>
   )
 }
 

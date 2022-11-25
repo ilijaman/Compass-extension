@@ -39,7 +39,7 @@ const Search = () => {
           value={query}
         />
         <br />
-        <Button variant="outline-primary" as="input" type="submit" value="search">
+        <Button variant="primary" as="input" type="submit" value="search">
         </Button>
       </form>
       {results.map((result) => (

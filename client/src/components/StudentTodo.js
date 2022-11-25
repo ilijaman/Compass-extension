@@ -1,17 +1,9 @@
 import Card from "react-bootstrap/Card"
 
-const Todo = ({ todo, user , todos, setTodos }) => {
+const Todo = ({ todo }) => {
 
-    const handleDelete = async () => {
-        console.log('heeello', user)
-        const res = await fetch(`/api/admin/todo/${todo.id}/`, { method: 'DELETE' })
-        const data = await res.json()
-        setTodos(todos.filter((t)=> {
-            return t.id != todo.id
-        })
-    )}
 
-    const subjectOrganiser = () => {
+    const StudentTodo = () => {
         if (todo.subject === "English") {
         return (
             <Card 
@@ -20,7 +12,6 @@ const Todo = ({ todo, user , todos, setTodos }) => {
             <h3 className="notice-title">{todo.title}</h3>
             <p className="notice-text">{todo.text} </p>
             <p>{new Date(todo.date).toLocaleString()}</p>
-            {todo.admin_id === user.id && <button onClick={handleDelete}>Delete</button>}
             </Card>
         )
         } else if (todo.subject === "Math") {
@@ -31,7 +22,6 @@ const Todo = ({ todo, user , todos, setTodos }) => {
             <h3 className="notice-title">{todo.title}</h3>
             <p className="notice-text">{todo.text} </p>
             <p>{new Date(todo.date).toLocaleString()}</p>
-            {todo.admin_id === user.id && <button onClick={handleDelete}>Delete</button>}
             </Card>
         )
         } else if (todo.subject === "Science") {
@@ -42,7 +32,6 @@ const Todo = ({ todo, user , todos, setTodos }) => {
             <h3 className="notice-title">{todo.title}</h3>
             <p className="notice-text">{todo.text} </p>
             <p>{new Date(todo.date).toLocaleString()}</p>
-            {todo.admin_id === user.id && <button onClick={handleDelete}>Delete</button>}
             </Card>
         )
         } else {
@@ -53,12 +42,11 @@ const Todo = ({ todo, user , todos, setTodos }) => {
             <h3 className="notice-title">{todo.title}</h3>
             <p className="notice-text">{todo.text} </p>
             <p>{new Date(todo.date).toLocaleString()}</p>
-            {todo.admin_id === user.id && <button onClick={handleDelete}>Delete</button>}
             </Card>
             )
         }
     }
-  return <div>{subjectOrganiser()}</div>
+  return <div>{StudentTodo()}</div>
 }
 
 export default Todo

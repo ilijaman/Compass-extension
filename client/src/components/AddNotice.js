@@ -23,13 +23,14 @@ const AddNotice = ({ notices, setNotices }) => {
       text: text,
       importance_tier: importance,
     }
-    const res = await fetch(`/api/admin/`, {
+    const res = await fetch(`/api/admin/notice/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
     const newNotice = await res.json()
     setNotices([newNotice, ...notices])
+    handleClose()
     navigate("/")
   }
 
